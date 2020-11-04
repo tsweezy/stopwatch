@@ -30,7 +30,7 @@ public class HabitTracker {
     }
 
     /*****************************************************************
-     Adds a habit to the habit list using a habit name as parameter and
+     Adds a Habit to the habit list using a Habit name as parameter and
      returns the Habit as an object.
      @param name the name of a new Habit object
      @return habit
@@ -42,7 +42,7 @@ public class HabitTracker {
     }
 
     /*****************************************************************
-     Adds a habit to the habit list using a habit name and description
+     Adds a Habit to the habit list using a Habit name and description
      as parameter and returns the Habit as an object.
      @param name the name of a new Habit object
      @param description the description of a new Habit object
