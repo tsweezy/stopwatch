@@ -1,18 +1,17 @@
 // GUI Calendar Refrence https://www.santhoshreddymandadi.com/java/java-calendar-using-swings.html
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Date;
-import javax.swing.*;
 
 public class pickDay extends JFrame implements ItemListener{
 
     JPanel p1, p2;
     JComboBox month;
     JComboBox year;
+    JButton today;
     int extradays[]={31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     String day[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -32,9 +31,13 @@ public class pickDay extends JFrame implements ItemListener{
             year.addItem(i);
         }
 
+        today = new JButton("Jump to Today");
+        today.addItemListener(this);
+
         year.addItemListener(this);
         p1.add(month);
         p1.add(year);
+        p1.add(today);
         p2 = new JPanel();
         p2.setLayout(new GridLayout(0,7,5,5));
         Date date = new Date();
