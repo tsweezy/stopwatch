@@ -30,7 +30,7 @@ public class HabitGui {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationByPlatform(true);
         frame.setSize(500, 400);
-        frame.setVisible(true);
+        frame.setVisible(true); 
     }
 }
 
