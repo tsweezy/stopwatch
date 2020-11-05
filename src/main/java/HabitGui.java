@@ -18,11 +18,11 @@ public class HabitGui {
         btnPanel.add(new JButton("Netflix"));
         btnPanel.add(new JButton("Excel"));
         btnPanel.add(new JButton("Email"));
-        btnPanel.add(new JButton("Fourth Button"));
-        btnPanel.add(new JButton("Fifth Button"));
-        btnPanel.add(new JButton("Sixth Button"));
+        btnPanel.add(new JButton("Exercise"));
+        btnPanel.add(new JButton("Eatting"));
+        btnPanel.add(new JButton("Homework"));
         btnPanel.add(new JButton("Overview"));
-        btnPanel.add(new JButton("Share Data"));
+        btnPanel.add(new JButton("Compare my Data"));
         layout.add(btnPanel);
         panel.add(layout, BorderLayout.CENTER);
         JFrame frame = new JFrame("Habit Tracker");
