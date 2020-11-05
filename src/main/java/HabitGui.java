@@ -21,7 +21,7 @@ public class HabitGui {
         btnPanel.add(new JButton("Exercise"));
         btnPanel.add(new JButton("Eatting"));
         btnPanel.add(new JButton("Homework"));
-        btnPanel.add(new JButton("Overview"));
+        btnPanel.add(new JButton("Overview of my Data"));
         btnPanel.add(new JButton("Compare my Data"));
         layout.add(btnPanel);
         panel.add(layout, BorderLayout.CENTER);
