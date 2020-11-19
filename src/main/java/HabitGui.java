@@ -1,5 +1,3 @@
-package com.company;
-
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
