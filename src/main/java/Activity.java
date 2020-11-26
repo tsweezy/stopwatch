@@ -9,7 +9,7 @@ import java.time.*;
 ******************************************************************/
 public class Activity {
 
-    /** required name of the Activity */
+    /** optional name of the Activity */
     String name;
 
     /** optional description of the Activity */
@@ -20,6 +20,11 @@ public class Activity {
 
     /** instant of time at stop */
     Instant stop;
+
+    /**
+     * Constructor creates Activity with no parameters
+     */
+    public Activity() { }
 
     /**
      * Constructor creates Activity with name
@@ -40,7 +45,7 @@ public class Activity {
     }
 
     /**
-     * Starts tracking the duration of the Activity
+     * Tracks the current Instant at start
      */
     public void start() {
         start = Instant.now();
@@ -55,13 +60,12 @@ public class Activity {
     }
 
     /**
-     * Stops tracking the duration of the Activity
+     * Tracks the current Instant at stop
      * @return the Duration at stop
      */
     public Duration stop() {
         stop = Instant.now();
-        Duration interval = Duration.between(start, stop);
-        return null;
+        return Duration.between(start, stop);
     }
 
     /** Self-Explanatory getters and setters */
@@ -86,15 +90,7 @@ public class Activity {
         return start;
     }
 
-    public void setStart(Instant start) {
-        this.start = start;
-    }
-
     public Instant getStop() {
         return stop;
-    }
-
-    public void setStop(Instant stop) {
-        this.stop = stop;
     }
 }
