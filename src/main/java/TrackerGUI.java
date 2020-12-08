@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 /*****************************************************************
  Driver class for TrackerGUI.form.
 
- @author Trevor Sweet
+ @author Trevor Sweet & Jacob Sydlowski
  @version Fall 2020
  ******************************************************************/
 public class TrackerGUI extends JFrame {
@@ -62,23 +62,30 @@ public class TrackerGUI extends JFrame {
                 min = 0;
             }
             if (sec < 10) {
-                stopwatchLabel.setText(hr + initialText + min + initialText + "0" + sec);
+                stopwatchLabel.setText(hr + initialText + min +
+                        initialText + "0" + sec);
                 if (min < 10) {
-                    stopwatchLabel.setText(hr + initialText + "0" + min + initialText + "0" + sec);
+                    stopwatchLabel.setText(hr + initialText +
+                            "0" + min + initialText + "0" + sec);
                     if (hr < 10)
-                        stopwatchLabel.setText("0" + hr + initialText + "0" + min + initialText + "0" + sec);
+                        stopwatchLabel.setText("0" + hr + initialText +
+                                "0" + min + initialText + "0" + sec);
                 }
             }
             else if (min < 10){
-                stopwatchLabel.setText(hr + initialText + "0" + min + initialText + sec);
+                stopwatchLabel.setText(hr + initialText +
+                        "0" + min + initialText + sec);
                 if (hr < 10)
-                    stopwatchLabel.setText("0" + hr + initialText + "0" + min + initialText + sec);
+                    stopwatchLabel.setText("0" + hr + initialText +
+                            "0" + min + initialText + sec);
             }
             else if (hr < 10)
-                stopwatchLabel.setText("0" + hr + initialText + min + initialText + sec);
+                stopwatchLabel.setText("0" + hr + initialText +
+                        min + initialText + sec);
 
             else
-                stopwatchLabel.setText(hr + initialText + min + initialText + sec);
+                stopwatchLabel.setText(hr + initialText + min +
+                        initialText + sec);
         }
     };
 
@@ -137,8 +144,12 @@ public class TrackerGUI extends JFrame {
                     timer.start();
 
                     // if the activity name entered is empty, give it a temporary name
-                    String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();
-                    currentActivity = new Activity(currentActivityName);
+                    String currentActivityName = (activityName.
+                            getText().length() == 0) ?
+                            "Untitled Activity" : activityName.
+                            getText();
+                    currentActivity =
+                            new Activity(currentActivityName);
 
                     // start the timer and set the GUI timer status to running
                     currentActivity.start();
@@ -161,18 +172,24 @@ public class TrackerGUI extends JFrame {
                     currentActivity.stop();
 
                     // if the activity name entered is still empty, give it a temporary name
-                    String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();
+                    String currentActivityName = (activityName.
+                            getText().length() == 0)
+                            ? "Untitled Activity" : activityName.
+                            getText();
                     currentActivity.setName(currentActivityName);
 
                     // if the description entered is empty, don't pass it to the activity (keep it null)
                     if (activityDescription.getText().length() != 0)
-                        currentActivity.setDescription(activityDescription.getText());
+                        currentActivity.setDescription
+                                (activityDescription.getText());
 
                     // add the activity to the activity list
                     activityList.add(currentActivity);
 
-                    // display the three most recent activities as buttons, with tooltips showing their descriptions
-                    recentActivities = activityList.getRecentActivities(3);
+                    // display the three most recent activities as buttons,
+                    // with tooltips showing their descriptions
+                    recentActivities = activityList.
+                            getRecentActivities(3);
 
                     // for whatever reason, only targeting the visibility of
                     // the title label doesn't completely mess up the layout
@@ -184,27 +201,39 @@ public class TrackerGUI extends JFrame {
                     switch (recentActivities.length) {
                         case 1 -> {
                             recentActivity1.setVisible(true);
-                            recentActivity1.setText(recentActivities[0].getName());
-                            recentActivity1.setToolTipText(recentActivities[0].getDescription());
+                            recentActivity1.setText
+                                    (recentActivities[0].getName());
+                            recentActivity1.setToolTipText
+                                    (recentActivities[0].getDescription());
                         }
                         case 2 -> {
                             recentActivity1.setVisible(true);
                             recentActivity2.setVisible(true);
-                            recentActivity1.setText(recentActivities[0].getName());
-                            recentActivity1.setToolTipText(recentActivities[0].getDescription());
-                            recentActivity2.setText(recentActivities[1].getName());
-                            recentActivity2.setToolTipText(recentActivities[1].getDescription());
+                            recentActivity1.setText
+                                    (recentActivities[0].getName());
+                            recentActivity1.setToolTipText
+                                    (recentActivities[0].getDescription());
+                            recentActivity2.setText
+                                    (recentActivities[1].getName());
+                            recentActivity2.setToolTipText
+                                    (recentActivities[1].getDescription());
                         }
                         case 3 -> {
                             recentActivity1.setVisible(true);
                             recentActivity2.setVisible(true);
                             recentActivity3.setVisible(true);
-                            recentActivity1.setText(recentActivities[0].getName());
-                            recentActivity1.setToolTipText(recentActivities[0].getDescription());
-                            recentActivity2.setText(recentActivities[1].getName());
-                            recentActivity2.setToolTipText(recentActivities[1].getDescription());
-                            recentActivity3.setText(recentActivities[2].getName());
-                            recentActivity3.setToolTipText(recentActivities[2].getDescription());
+                            recentActivity1.setText
+                                    (recentActivities[0].getName());
+                            recentActivity1.setToolTipText
+                                    (recentActivities[0].getDescription());
+                            recentActivity2.setText
+                                    (recentActivities[1].getName());
+                            recentActivity2.setToolTipText
+                                    (recentActivities[1].getDescription());
+                            recentActivity3.setText
+                                    (recentActivities[2].getName());
+                            recentActivity3.setToolTipText
+                                    (recentActivities[2].getDescription());
                         }
                     }
 
@@ -230,9 +259,11 @@ public class TrackerGUI extends JFrame {
                 JPanel timeEntryPanel = new JPanel();
                 GridBagConstraints constraints = new GridBagConstraints();
                 timeEntryPanel.setLayout(new GridBagLayout());
-                timeEntryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 16, 0));
+                timeEntryPanel.setBorder(BorderFactory.createEmptyBorder
+                        (0, 0, 16, 0));
 
-                activityListPanel.setLayout(new BoxLayout(activityListPanel, BoxLayout.Y_AXIS));
+                activityListPanel.setLayout(new BoxLayout
+                        (activityListPanel, BoxLayout.Y_AXIS));
 
                 timeEntryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 activityListPanel.add(timeEntryPanel);
@@ -240,8 +271,10 @@ public class TrackerGUI extends JFrame {
                 JLabel aTitle = new JLabel(a.getName());
                 JLabel aDuration = new JLabel(a.durationToString(a.getLastTime()));
                 JLabel aLocalTimes = new JLabel(
-                        a.getLocalStartTime().format(DateTimeFormatter.ofPattern("E h:mm:ss a"))
-                        + " - " + a.getLocalStopTime().format(DateTimeFormatter.ofPattern("h:mm:ss a"))
+                        a.getLocalStartTime().format(DateTimeFormatter.
+                                ofPattern("E h:mm:ss a"))
+                        + " - " + a.getLocalStopTime().
+                                format(DateTimeFormatter.ofPattern("h:mm:ss a"))
                 );
                 JLabel aDescription = new JLabel(a.getDescription());
 
@@ -276,13 +309,15 @@ public class TrackerGUI extends JFrame {
         recentActivity1.addActionListener(e -> {
             if (trackerStatus == Status.NOT_RUNNING) {
                 activityName.setText(recentActivity1.getText());
-                activityDescription.setText(recentActivity1.getToolTipText());
+                activityDescription.setText(recentActivity1.
+                        getToolTipText());
 
                 stopwatchLabel.setText("00 : 00 : 00");
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
-                currentActivity = new Activity(recentActivity1.getText(), recentActivity1.getToolTipText());
+                currentActivity = new Activity(recentActivity1.
+                        getText(), recentActivity1.getToolTipText());
                 currentActivity.start();
 
                 descriptionInputPanel.setVisible(true);
@@ -293,13 +328,15 @@ public class TrackerGUI extends JFrame {
         recentActivity2.addActionListener(e -> {
             if (trackerStatus == Status.NOT_RUNNING) {
                 activityName.setText(recentActivity2.getText());
-                activityDescription.setText(recentActivity2.getToolTipText());
+                activityDescription.setText(recentActivity2.
+                        getToolTipText());
 
                 stopwatchLabel.setText("00 : 00 : 00");
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
-                currentActivity = new Activity(recentActivity2.getText(), recentActivity2.getToolTipText());
+                currentActivity = new Activity(recentActivity2.
+                        getText(), recentActivity2.getToolTipText());
                 currentActivity.start();
 
                 descriptionInputPanel.setVisible(true);
@@ -316,7 +353,8 @@ public class TrackerGUI extends JFrame {
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
-                currentActivity = new Activity(recentActivity3.getText(), recentActivity3.getToolTipText());
+                currentActivity = new Activity(recentActivity3.
+                        getText(), recentActivity3.getToolTipText());
                 currentActivity.start();
 
                 descriptionInputPanel.setVisible(true);

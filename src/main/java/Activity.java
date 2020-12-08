@@ -110,6 +110,7 @@ public class Activity {
 
     /** Self-Explanatory getters and setters */
 
+
     public String getName() {
         return name;
     }
