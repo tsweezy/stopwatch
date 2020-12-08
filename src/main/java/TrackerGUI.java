@@ -110,10 +110,10 @@ public class TrackerGUI extends JFrame {
         activityListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         
         /* pack and center JFrame to screen */
-        this.setLocationRelativeTo(null);
         this.setPreferredSize(new Dimension(450, 600));
         this.setMinimumSize(new Dimension(370, 128));
         this.setSize(new Dimension(450, 600));
+        this.setLocationRelativeTo(null);
 
 
         activityList = new ActivityList();
@@ -247,8 +247,8 @@ public class TrackerGUI extends JFrame {
                 JLabel aTitle = new JLabel(a.getName());
                 JLabel aDuration = new JLabel(a.durationToString(a.getLastTime()));
                 JLabel aLocalTimes = new JLabel(
-                        a.getLocalStartTime().format(DateTimeFormatter.ofPattern("E h:m:s a"))
-                        + " - " + a.getLocalStopTime().format(DateTimeFormatter.ofPattern("h:m:s a"))
+                        a.getLocalStartTime().format(DateTimeFormatter.ofPattern("E h:mm:ss a"))
+                        + " - " + a.getLocalStopTime().format(DateTimeFormatter.ofPattern("h:mm:ss a"))
                 );
                 JLabel aDescription = new JLabel(a.getDescription());
 
