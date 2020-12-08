@@ -1,11 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.PanelUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Flow;
 
 /*****************************************************************
  Driver class for TrackerGUI.form.
@@ -42,18 +45,18 @@ public class TrackerGUI extends JFrame {
     /* the current activity being tracked */
     private Activity currentActivity;
 
-    private ActivityList activityList;
+    private final ActivityList activityList;
     private Activity[] recentActivities;
     BufferedImage pauseButtonImg, playButtonImg;
 
     private Timer timer;
-    private JLabel stopwatchLabel;
+    private JLabel stopwatchLabel, recentActivitiesLabel;
     private int sec = 0;
     private int min = 0;
     private int hr = 0;
-    private String initialText = " : ";
+    private final String initialText = " : ";
 
-    private ActionListener timerAction = new ActionListener()
+    private final ActionListener timerAction = new ActionListener()
     {
         public void actionPerformed(ActionEvent ae) {
             sec++;
@@ -93,29 +96,33 @@ public class TrackerGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
 
-        /* set status of timer and component initial visibility */
+        /* set status of timer and component initial states */
         trackerStatus = Status.NOT_RUNNING;
         viewEntriesButton.setVisible(false);
         descriptionInputPanel.setVisible(false);
-        recentActivitiesPanel.setVisible(false);
+        recentActivitiesLabel.setVisible(false);
         recentActivity1.setVisible(false);
         recentActivity2.setVisible(false);
         recentActivity3.setVisible(false);
         activityListScrollPane.setVisible(false);
-
         stopwatchLabel.setText("00 : 00 : 00");
+        activityListScrollPane.setViewportView(activityListPanel);
+        activityListScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         
         /* pack and center JFrame to screen */
-        this.pack();
         this.setLocationRelativeTo(null);
+        this.setPreferredSize(new Dimension(450, 600));
+        this.setMinimumSize(new Dimension(370, 128));
+        this.setSize(new Dimension(450, 600));
+
 
         activityList = new ActivityList();
         currentActivity = new Activity();
 
         /* get start/stop button images from img folder */
         try {
-            playButtonImg = ImageIO.read(new File("C:\\Users\\Jacob\\Downloads\\Code\\activity-tracker\\src\\img\\playButton.png"));
-            pauseButtonImg = ImageIO.read(new File("C:\\Users\\Jacob\\Downloads\\Code\\activity-tracker\\src\\img\\pauseButton.png"));
+            playButtonImg = ImageIO.read(new File("src\\img\\playButton.png"));
+            pauseButtonImg = ImageIO.read(new File("src\\img\\pauseButton.png"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -128,8 +135,9 @@ public class TrackerGUI extends JFrame {
 
         // pause/play button is pressed
         startStopButton.addActionListener(e -> {
+            this.pack();
             switch (trackerStatus) {
-                // if the button is pressed while the timer isn't running (i.e. |>)
+                // if the button is pressed while the timer isn't running (i.e. ►)
                 case NOT_RUNNING -> {
                     stopwatchLabel.setText("00 : 00 : 00");
                     timer = new Timer(1000, timerAction);
@@ -156,6 +164,9 @@ public class TrackerGUI extends JFrame {
                     hr = 0;
                     stopwatchLabel.setText("00 : 00 : 00");
 
+                    // stop the activity timer
+                    currentActivity.stop();
+
                     // if the activity name entered is still empty, give it a temporary name
                     String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();
                     currentActivity.setName(currentActivityName);
@@ -169,7 +180,14 @@ public class TrackerGUI extends JFrame {
 
                     // display the three most recent activities as buttons, with tooltips showing their descriptions
                     recentActivities = activityList.getRecentActivities(3);
-                    recentActivitiesPanel.setVisible(true);
+
+                    // for whatever reason, only targeting the visibility of
+                    // the title label doesn't completely mess up the layout
+                    // of the GUI, whereas targeting the visibility of its
+                    // parent does ¯\_(ツ)_/¯
+                    recentActivitiesLabel.setVisible(true);
+
+                    /* only show buttons that correspond to an actual activity */
                     switch (recentActivities.length) {
                         case 1 -> {
                             recentActivity1.setVisible(true);
@@ -199,10 +217,6 @@ public class TrackerGUI extends JFrame {
 
                     viewEntriesButton.setVisible(true);
 
-                    activityListScrollPane.setViewportView(activityListPanel);
-
-                    System.out.println(currentActivity.getName() + ", " + currentActivity.getDescription() + " for " + currentActivity.stop().getSeconds() + " seconds");
-
                     // make description panel invisible and reset all text fields
                     descriptionInputPanel.setVisible(false);
                     activityName.setText("");
@@ -218,7 +232,7 @@ public class TrackerGUI extends JFrame {
             /* generate visual activityList in activityListScrollPane
              * (this is required because we don't know the
              * number of activities at runtime) */
-            for (int i = 0; i < activityList.size(); i++) {
+            for (int i = activityList.size() - 1; i >= 0; i--) {
                 Activity a = activityList.get(i);
                 JPanel timeEntryPanel = new JPanel();
                 GridBagConstraints constraints = new GridBagConstraints();
@@ -231,10 +245,15 @@ public class TrackerGUI extends JFrame {
                 activityListPanel.add(timeEntryPanel);
 
                 JLabel aTitle = new JLabel(a.getName());
-                JLabel aTime = new JLabel(a.durationToString(a.getLastTime()));
+                JLabel aDuration = new JLabel(a.durationToString(a.getLastTime()));
+                JLabel aLocalTimes = new JLabel(
+                        a.getLocalStartTime().format(DateTimeFormatter.ofPattern("E h:m:s a"))
+                        + " - " + a.getLocalStopTime().format(DateTimeFormatter.ofPattern("h:m:s a"))
+                );
                 JLabel aDescription = new JLabel(a.getDescription());
 
                 aTitle.setFont(aTitle.getFont().deriveFont(16.0f));
+                aDuration.setFont(aDuration.getFont().deriveFont(16.0f));
 
                 constraints.gridx = 0;
                 constraints.gridy = GridBagConstraints.RELATIVE;
@@ -242,13 +261,11 @@ public class TrackerGUI extends JFrame {
                 constraints.ipadx = 16;
                 timeEntryPanel.add(aTitle, constraints);
                 timeEntryPanel.add(aDescription, constraints);
+                timeEntryPanel.add(aLocalTimes, constraints);
                 constraints.gridx = 1;
-                timeEntryPanel.add(aTime, constraints);
+                timeEntryPanel.add(aDuration, constraints);
                 constraints.gridx = GridBagConstraints.RELATIVE;
-//                timeEntryPanel.revalidate();
-//                timeEntryPanel.repaint();
             }
-
             this.pack();
         });
 
@@ -269,7 +286,6 @@ public class TrackerGUI extends JFrame {
                 activityDescription.setText(recentActivity1.getToolTipText());
             }
         });
-
     }
     // TODO: write method to start timer (or enter activity info) when clicking on a recent activity button
 

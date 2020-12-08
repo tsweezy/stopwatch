@@ -87,6 +87,14 @@ public class Activity {
         return Duration.between(start, stop);
     }
 
+    public ZonedDateTime getLocalStartTime() {
+        return start.atZone(ZoneId.systemDefault());
+    }
+
+    public ZonedDateTime getLocalStopTime() {
+        return stop.atZone(ZoneId.systemDefault());
+    }
+
     /** Self-Explanatory getters and setters */
 
     public String getName() {
