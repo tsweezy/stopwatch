@@ -55,8 +55,7 @@ public class TrackerGUI extends JFrame {
 
     private ActionListener timerAction = new ActionListener()
     {
-        public void actionPerformed(ActionEvent ae)
-        {
+        public void actionPerformed(ActionEvent ae) {
             sec++;
             if (sec == 60) {
                 min++;
@@ -66,7 +65,24 @@ public class TrackerGUI extends JFrame {
                 hr++;
                 min = 0;
             }
-            stopwatchLabel.setText(hr + initialText + min + initialText + sec);
+            if (sec < 10) {
+                stopwatchLabel.setText(hr + initialText + min + initialText + "0" + sec);
+                if (min < 10) {
+                    stopwatchLabel.setText(hr + initialText + "0" + min + initialText + "0" + sec);
+                    if (hr < 10)
+                        stopwatchLabel.setText("0" + hr + initialText + "0" + min + initialText + "0" + sec);
+                }
+            }
+            else if (min < 10){
+                stopwatchLabel.setText(hr + initialText + "0" + min + initialText + sec);
+                if (hr < 10)
+                    stopwatchLabel.setText("0" + hr + initialText + "0" + min + initialText + sec);
+            }
+            else if (hr < 10)
+                stopwatchLabel.setText("0" + hr + initialText + min + initialText + sec);
+
+            else
+                stopwatchLabel.setText(hr + initialText + min + initialText + sec);
         }
     };
 
@@ -87,7 +103,7 @@ public class TrackerGUI extends JFrame {
         recentActivity3.setVisible(false);
         activityListScrollPane.setVisible(false);
 
-        stopwatchLabel.setText("0 : 0 : 0");
+        stopwatchLabel.setText("00 : 00 : 00");
         
         /* pack and center JFrame to screen */
         this.pack();
@@ -115,7 +131,7 @@ public class TrackerGUI extends JFrame {
             switch (trackerStatus) {
                 // if the button is pressed while the timer isn't running (i.e. |>)
                 case NOT_RUNNING -> {
-                    stopwatchLabel.setText("0 : 0 : 0");
+                    stopwatchLabel.setText("00 : 00 : 00");
                     timer = new Timer(1000, timerAction);
                     timer.start();
 
@@ -138,7 +154,7 @@ public class TrackerGUI extends JFrame {
                     sec = 0;
                     min = 0;
                     hr = 0;
-                    stopwatchLabel.setText("0 : 0 : 0");
+                    stopwatchLabel.setText("00 : 00 : 00");
 
                     // if the activity name entered is still empty, give it a temporary name
                     String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();
