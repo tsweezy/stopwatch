@@ -10,16 +10,16 @@ import java.time.*;
 public class Activity {
 
     /** optional name of the Activity */
-    String name;
+    private String name;
 
     /** optional description of the Activity */
-    String description;
+    private String description;
 
     /** instant of time at start */
-    Instant start;
+    private Instant start;
 
     /** instant of time at stop */
-    Instant stop;
+    private Instant stop;
 
     /**
      * Constructor creates Activity with no parameters
@@ -60,13 +60,18 @@ public class Activity {
     }
 
     /**
-     Gets the Duration from the start of the Activity to the end.
-     @return the Duration of the Activity
+     * Gets the Duration from the start of the Activity to the end.
+     * @return the Duration of the Activity
      */
     public Duration getLastTime() {
         return Duration.between(start, stop);
     }
 
+    /**
+     * Returns a String representation of a given duration.
+     * @param dur the Duration to format
+     * @return a String representation of a time interval
+     */
     public String durationToString(Duration dur) {
         long seconds = dur.getSeconds();
         long absSeconds = Math.abs(seconds);
@@ -79,7 +84,7 @@ public class Activity {
     }
 
     /**
-     * Tracks the current Instant at stop
+     * Tracks the current Instant at stop.
      * @return the Duration at stop
      */
     public Duration stop() {
@@ -87,10 +92,18 @@ public class Activity {
         return Duration.between(start, stop);
     }
 
+    /**
+     * Returns the start Instant as a local ZonedDateTime.
+     * @return a local ZonedDateTime at start
+     */
     public ZonedDateTime getLocalStartTime() {
         return start.atZone(ZoneId.systemDefault());
     }
 
+    /**
+     * Returns the stop Instant as a local ZonedDateTime.
+     * @return a local ZonedDateTime at stop
+     */
     public ZonedDateTime getLocalStopTime() {
         return stop.atZone(ZoneId.systemDefault());
     }
