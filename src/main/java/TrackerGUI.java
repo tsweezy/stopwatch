@@ -289,6 +289,10 @@ public class TrackerGUI extends JFrame {
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
+                currentActivity = new Activity(recentActivity1.getText(), recentActivity1.getToolTipText());
+                currentActivity.start();
+
+                descriptionInputPanel.setVisible(true);
                 startStopButton.setIcon(pauseButtonIcon);
                 trackerStatus = Status.RUNNING;
             }
@@ -302,9 +306,12 @@ public class TrackerGUI extends JFrame {
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
+                currentActivity = new Activity(recentActivity2.getText(), recentActivity2.getToolTipText());
+                currentActivity.start();
+
+                descriptionInputPanel.setVisible(true);
                 startStopButton.setIcon(pauseButtonIcon);
                 trackerStatus = Status.RUNNING;
-
             }
         });
         recentActivity3.addActionListener(e -> {
@@ -316,6 +323,10 @@ public class TrackerGUI extends JFrame {
                 timer = new Timer(1000, timerAction);
                 timer.start();
 
+                currentActivity = new Activity(recentActivity3.getText(), recentActivity3.getToolTipText());
+                currentActivity.start();
+
+                descriptionInputPanel.setVisible(true);
                 startStopButton.setIcon(pauseButtonIcon);
                 trackerStatus = Status.RUNNING;
             }
