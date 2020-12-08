@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class TrackerGUI extends JFrame {
         activityName,
         activityDescription;
     private JLabel stopwatchLabel;
+    private JButton viewEntriesButton;
+    private JScrollPane activityListScrollPane;
+    private JPanel activityListPanel;
 
     /* enum to track the status of the timer */
     private enum Status {NOT_RUNNING, RUNNING};
@@ -45,14 +49,21 @@ public class TrackerGUI extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.pack();
 
+        /* set status of timer and component initial visibility */
         trackerStatus = Status.NOT_RUNNING;
+        viewEntriesButton.setVisible(false);
         descriptionInputPanel.setVisible(false);
         recentActivitiesPanel.setVisible(false);
         recentActivity1.setVisible(false);
         recentActivity2.setVisible(false);
         recentActivity3.setVisible(false);
+        activityListScrollPane.setVisible(false);
+        
+        /* pack and center JFrame to screen */
+        this.pack();
+        this.setLocationRelativeTo(null);
+
         activityList = new ActivityList();
         currentActivity = new Activity();
 
@@ -88,7 +99,7 @@ public class TrackerGUI extends JFrame {
                     startStopButton.setIcon(pauseButtonIcon);
                     descriptionInputPanel.setVisible(true);
                 }
-                // if the button is pressed while the timer is running (i.e. [])
+                // if the button is pressed while the timer is running (i.e. ■)
                 case RUNNING -> {
 
                     // if the activity name entered is still empty, give it a temporary name
@@ -131,6 +142,11 @@ public class TrackerGUI extends JFrame {
                             recentActivity3.setToolTipText(recentActivities[2].getDescription());
                         }
                     }
+
+                    viewEntriesButton.setVisible(true);
+
+                    activityListScrollPane.setViewportView(activityListPanel);
+
                     System.out.println(currentActivity.getName() + ", " + currentActivity.getDescription() + " for " + currentActivity.stop().getSeconds() + " seconds");
 
                     // make description panel invisible and reset all text fields
@@ -143,8 +159,55 @@ public class TrackerGUI extends JFrame {
                     trackerStatus = Status.NOT_RUNNING;
                 }
             }
+
+            activityListPanel.removeAll();
+            /* generate visual activityList in activityListScrollPane
+             * (this is required because we don't know the
+             * number of activities at runtime) */
+            for (int i = 0; i < activityList.size(); i++) {
+                Activity a = activityList.get(i);
+                JPanel timeEntryPanel = new JPanel();
+                GridBagConstraints constraints = new GridBagConstraints();
+                timeEntryPanel.setLayout(new GridBagLayout());
+                timeEntryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 16, 0));
+
+                activityListPanel.setLayout(new BoxLayout(activityListPanel, BoxLayout.Y_AXIS));
+
+                timeEntryPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                activityListPanel.add(timeEntryPanel);
+
+                JLabel aTitle = new JLabel(a.getName());
+                JLabel aTime = new JLabel(a.durationToString(a.getLastTime()));
+                JLabel aDescription = new JLabel(a.getDescription());
+
+                aTitle.setFont(aTitle.getFont().deriveFont(16.0f));
+
+                constraints.gridx = 0;
+                constraints.gridy = GridBagConstraints.RELATIVE;
+                constraints.anchor = GridBagConstraints.WEST;
+                constraints.ipadx = 16;
+                timeEntryPanel.add(aTitle, constraints);
+                timeEntryPanel.add(aDescription, constraints);
+                constraints.gridx = 1;
+                timeEntryPanel.add(aTime, constraints);
+                constraints.gridx = GridBagConstraints.RELATIVE;
+//                timeEntryPanel.revalidate();
+//                timeEntryPanel.repaint();
+            }
+
+            this.pack();
         });
-    }
+
+        viewEntriesButton.addActionListener(e -> {
+            if (activityListScrollPane.isVisible()) {
+                activityListScrollPane.setVisible(false);
+                viewEntriesButton.setText("Show more");
+            } else {
+                activityListScrollPane.setVisible(true);
+                viewEntriesButton.setText("Show less");
+            }
+            this.pack();
+        });
 
     // TODO: write method to start timer (or enter activity info) when clicking on a recent activity button
 

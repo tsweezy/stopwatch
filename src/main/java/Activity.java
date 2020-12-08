@@ -52,11 +52,30 @@ public class Activity {
     }
 
     /**
-     * Gets the current Duration from the start of the Activity
+     * Gets the Duration from the start of the Activity to the current Instant
      * @return current Duration
      */
     public Duration getTime() {
         return Duration.between(start, Instant.now());
+    }
+
+    /**
+     Gets the Duration from the start of the Activity to the end.
+     @return the Duration of the Activity
+     */
+    public Duration getLastTime() {
+        return Duration.between(start, stop);
+    }
+
+    public String durationToString(Duration dur) {
+        long seconds = dur.getSeconds();
+        long absSeconds = Math.abs(seconds);
+        String positive = String.format(
+                "%02d:%02d:%02d",
+                absSeconds / 3600,
+                (absSeconds % 3600) / 60,
+                absSeconds % 60);
+        return seconds < 0 ? "-" + positive : positive;
     }
 
     /**

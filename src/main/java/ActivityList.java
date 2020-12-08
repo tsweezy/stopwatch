@@ -11,13 +11,16 @@ import java.util.LinkedList;
 public class ActivityList {
 
     /** list of all categories */
-    LinkedList<Activity> activityList;
+    private LinkedList<Activity> activityList;
+
+    private int size;
 
     /**
      * Constructor instantiates an empty list of Activities.
      */
     public ActivityList() {
         activityList = new LinkedList<Activity>();
+        size = 0;
     }
 
     /**
@@ -27,6 +30,7 @@ public class ActivityList {
      */
     public ActivityList(Collection<Activity> c) {
         activityList = new LinkedList<>(c);
+        size = activityList.size();
     }
 
     /**
@@ -37,7 +41,17 @@ public class ActivityList {
      */
     public Activity add(Activity activity) {
         activityList.add(activity);
+        size++;
         return activity;
+    }
+
+    /**
+     Get an Activity object at a specified index.
+     @param index index of the Activity object
+     @return Actvity object at that index
+     */
+    public Activity get(int index) {
+        return activityList.get(index);
     }
 
     public Activity[] getRecentActivities(int size) {
@@ -55,6 +69,8 @@ public class ActivityList {
 
         return recents.toArray(Activity[]::new);
     }
+
+    public int size() { return size; }
 
     // TODO: Add methods for saving and loading data to and from a file.
 }
