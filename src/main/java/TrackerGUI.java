@@ -305,7 +305,6 @@ public class TrackerGUI extends JFrame {
         });
 
     }
-    // TODO: write method to start timer (or enter activity info) when clicking on a recent activity button
 
     public static void main(String[] args) {
         JFrame frame = new TrackerGUI("Activity Tracker");
