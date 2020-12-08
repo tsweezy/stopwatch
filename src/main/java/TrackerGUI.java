@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class TrackerGUI extends JFrame {
     private JTextField
         activityName,
         activityDescription;
-    private JLabel stopwatchLabel;
+
     private JButton viewEntriesButton;
     private JScrollPane activityListScrollPane;
     private JPanel activityListPanel;
@@ -43,6 +45,31 @@ public class TrackerGUI extends JFrame {
     private ActivityList activityList;
     private Activity[] recentActivities;
     BufferedImage pauseButtonImg, playButtonImg;
+
+    private Timer timer;
+    private JLabel stopwatchLabel;
+    private int sec = 0;
+    private int min = 0;
+    private int hr = 0;
+    private String initialText = " : ";
+
+    private ActionListener timerAction = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent ae)
+        {
+            sec++;
+            if (sec == 60) {
+                min++;
+                sec = 0;
+            }
+            if (min == 60) {
+                hr++;
+                min = 0;
+            }
+            stopwatchLabel.setText(hr + initialText + min + initialText + sec);
+        }
+    };
+
 
     public TrackerGUI(String title) {
         super(title);
@@ -59,6 +86,8 @@ public class TrackerGUI extends JFrame {
         recentActivity2.setVisible(false);
         recentActivity3.setVisible(false);
         activityListScrollPane.setVisible(false);
+
+        stopwatchLabel.setText("0 : 0 : 0");
         
         /* pack and center JFrame to screen */
         this.pack();
@@ -69,8 +98,8 @@ public class TrackerGUI extends JFrame {
 
         /* get start/stop button images from img folder */
         try {
-            playButtonImg = ImageIO.read(new File("src//img//playButton.png"));
-            pauseButtonImg = ImageIO.read(new File("src//img//pauseButton.png"));
+            playButtonImg = ImageIO.read(new File("C:\\Users\\Jacob\\Downloads\\Code\\activity-tracker\\src\\img\\playButton.png"));
+            pauseButtonImg = ImageIO.read(new File("C:\\Users\\Jacob\\Downloads\\Code\\activity-tracker\\src\\img\\pauseButton.png"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -86,6 +115,9 @@ public class TrackerGUI extends JFrame {
             switch (trackerStatus) {
                 // if the button is pressed while the timer isn't running (i.e. |>)
                 case NOT_RUNNING -> {
+                    stopwatchLabel.setText("0 : 0 : 0");
+                    timer = new Timer(1000, timerAction);
+                    timer.start();
 
                     // if the activity name entered is empty, give it a temporary name
                     String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();
@@ -101,6 +133,12 @@ public class TrackerGUI extends JFrame {
                 }
                 // if the button is pressed while the timer is running (i.e. ■)
                 case RUNNING -> {
+
+                    timer.stop();
+                    sec = 0;
+                    min = 0;
+                    hr = 0;
+                    stopwatchLabel.setText("0 : 0 : 0");
 
                     // if the activity name entered is still empty, give it a temporary name
                     String currentActivityName = (activityName.getText().length() == 0) ? "Untitled Activity" : activityName.getText();

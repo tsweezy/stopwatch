@@ -1,44 +1,59 @@
-public class SW extends Thread {
-    private long startTime;
-    private boolean started;
 
-    public void startThread() {
-        this.startTime = System.currentTimeMillis();
-        this.started = true;
-        this.start();
-    }
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-    public void run() {
-        while (started) {
-            // empty code since currentTimeMillis increases by itself
+public class SW extends JDialog
+{
+    private Timer timer;
+    private JLabel stopwatchLabel;
+    private int sec = 0;
+    private int min = 0;
+    private int hr = 0;
+    private String initialText = " : ";
+
+    private ActionListener timerAction = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent ae)
+        {
+            sec++;
+            if (sec == 60) {
+                min++;
+                sec = 0;
+            }
+            if (min == 60) {
+                hr++;
+                min = 0;
+            }
+            stopwatchLabel.setText(hr + initialText + min + initialText + sec);
         }
+    };
+
+    private void createDialog()
+    {
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationByPlatform(true);
+
+        JPanel contentPane = new JPanel();
+        stopwatchLabel = new JLabel(initialText);
+        contentPane.add(stopwatchLabel);
+
+        add(contentPane);
+
+        pack();
+        setVisible(true);
+        timer = new Timer(1000, timerAction);
+        timer.start();
     }
 
-
-    public int[] getTime() {
-        long milliTime = System.currentTimeMillis() - this.startTime;
-        int[] out = new int[]{0, 0, 0, 0};
-        out[0] = (int) (milliTime / 3600000);
-        out[1] = (int) (milliTime / 60000) % 60;
-        out[2] = (int) (milliTime / 1000) % 60;
-        out[3] = (int) (milliTime) % 1000;
-
-        return out;
-    }
-
-    public void stopThread() {
-        this.started = false;
-    }
-// Shows working stopwatch Can be deleted after added to GUI
-    public static void main(String[] args) throws InterruptedException {
-        SW s = new SW();
-
-        s.startThread();
-
-        while (true) {
-            int[] curTime = s.getTime();
-            System.out.println(curTime[0] + " : " + curTime[1] + " : " + curTime[2] + " : " + curTime[3]);
-        }
-
+    public static void main(String... args)
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                new SW().createDialog();
+            }
+        });
     }
 }
