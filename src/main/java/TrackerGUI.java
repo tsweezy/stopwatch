@@ -269,6 +269,18 @@ public class TrackerGUI extends JFrame {
                 activityDescription.setText(recentActivity1.getToolTipText());
             }
         });
+        recentActivity2.addActionListener(e -> {
+            if (trackerStatus == Status.NOT_RUNNING) {
+                activityName.setText(recentActivity2.getText());
+                activityDescription.setText(recentActivity2.getToolTipText());
+            }
+        });
+        recentActivity3.addActionListener(e -> {
+            if (trackerStatus == Status.NOT_RUNNING) {
+                activityName.setText(recentActivity3.getText());
+                activityDescription.setText(recentActivity3.getToolTipText());
+            }
+        });
 
     }
     // TODO: write method to start timer (or enter activity info) when clicking on a recent activity button
