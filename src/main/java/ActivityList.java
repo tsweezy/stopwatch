@@ -71,6 +71,4 @@ public class ActivityList {
     }
 
     public int size() { return size; }
-
-    // TODO: Add methods for saving and loading data to and from a file.
 }

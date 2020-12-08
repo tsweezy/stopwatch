@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.PanelUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.Flow;
 
 /*****************************************************************
  Driver class for TrackerGUI.form.
@@ -20,11 +18,7 @@ public class TrackerGUI extends JFrame {
     /* named Swing components */
     private JPanel
         mainPanel,
-        timerPanel,
-        nameInputPanel,
-        descriptionInputPanel,
-        recentActivitiesPanel,
-        recentActivitiesButtonsPanel;
+        descriptionInputPanel;
     private JButton
         startStopButton,
         recentActivity1,
@@ -56,8 +50,7 @@ public class TrackerGUI extends JFrame {
     private int hr = 0;
     private final String initialText = " : ";
 
-    private final ActionListener timerAction = new ActionListener()
-    {
+    private final ActionListener timerAction = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
             sec++;
             if (sec == 60) {
@@ -222,7 +215,7 @@ public class TrackerGUI extends JFrame {
                     activityName.setText("");
                     activityDescription.setText("");
 
-                    // set the controller button icon to play (|>) and set the status to not running
+                    // set the controller button icon to play (►) and set the status to not running
                     startStopButton.setIcon(playButtonIcon);
                     trackerStatus = Status.NOT_RUNNING;
                 }
