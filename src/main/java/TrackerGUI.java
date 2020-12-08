@@ -284,10 +284,43 @@ public class TrackerGUI extends JFrame {
             if (trackerStatus == Status.NOT_RUNNING) {
                 activityName.setText(recentActivity1.getText());
                 activityDescription.setText(recentActivity1.getToolTipText());
+
+                stopwatchLabel.setText("00 : 00 : 00");
+                timer = new Timer(1000, timerAction);
+                timer.start();
+
+                startStopButton.setIcon(pauseButtonIcon);
+                trackerStatus = Status.RUNNING;
+            }
+        });
+        recentActivity2.addActionListener(e -> {
+            if (trackerStatus == Status.NOT_RUNNING) {
+                activityName.setText(recentActivity2.getText());
+                activityDescription.setText(recentActivity2.getToolTipText());
+
+                stopwatchLabel.setText("00 : 00 : 00");
+                timer = new Timer(1000, timerAction);
+                timer.start();
+
+                startStopButton.setIcon(pauseButtonIcon);
+                trackerStatus = Status.RUNNING;
+
+            }
+        });
+        recentActivity3.addActionListener(e -> {
+            if (trackerStatus == Status.NOT_RUNNING) {
+                activityName.setText(recentActivity3.getText());
+                activityDescription.setText(recentActivity3.getToolTipText());
+
+                stopwatchLabel.setText("00 : 00 : 00");
+                timer = new Timer(1000, timerAction);
+                timer.start();
+
+                startStopButton.setIcon(pauseButtonIcon);
+                trackerStatus = Status.RUNNING;
             }
         });
     }
-    // TODO: write method to start timer (or enter activity info) when clicking on a recent activity button
 
     public static void main(String[] args) {
         JFrame frame = new TrackerGUI("Activity Tracker");
