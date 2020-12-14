@@ -61,27 +61,31 @@ public class TrackerGUI extends JFrame {
                 hr++;
                 min = 0;
             }
-            if (sec < 10) {
-                stopwatchLabel.setText(hr + initialText + min +
-                        initialText + "0" + sec);
+
+            if (hr < 10) {
+                stopwatchLabel.setText("0" + hr + initialText + min +
+                        initialText + sec);
                 if (min < 10) {
-                    stopwatchLabel.setText(hr + initialText +
-                            "0" + min + initialText + "0" + sec);
-                    if (hr < 10)
+                    stopwatchLabel.setText("0" + hr + initialText +
+                            "0" + min + initialText + sec);
+                    if (sec < 10)
                         stopwatchLabel.setText("0" + hr + initialText +
                                 "0" + min + initialText + "0" + sec);
                 }
+                else if (sec < 10)
+                    stopwatchLabel.setText("0" + hr + initialText +
+                            min + initialText + "0" + sec);
             }
             else if (min < 10){
                 stopwatchLabel.setText(hr + initialText +
                         "0" + min + initialText + sec);
-                if (hr < 10)
-                    stopwatchLabel.setText("0" + hr + initialText +
-                            "0" + min + initialText + sec);
+                if (sec < 10)
+                    stopwatchLabel.setText(hr + initialText +
+                            "0" + min + initialText + "0" + sec);
             }
-            else if (hr < 10)
-                stopwatchLabel.setText("0" + hr + initialText +
-                        min + initialText + sec);
+            else if (sec < 10)
+                stopwatchLabel.setText(hr + initialText +
+                        min + initialText + "0" + sec);
 
             else
                 stopwatchLabel.setText(hr + initialText + min +
