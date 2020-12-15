@@ -52,6 +52,14 @@ public class Activity {
     }
 
     /**
+     * Gets the Duration from the start of the Activity to the current Instant
+     * @return current Duration
+     */
+    public Duration getTime() {
+        return Duration.between(start, Instant.now());
+    }
+
+    /**
      * Gets the Duration from the start of the Activity to the end.
      * @return the Duration of the Activity
      */
@@ -119,4 +127,11 @@ public class Activity {
         this.description = description;
     }
 
+    public Instant getStart() {
+        return start;
+    }
+
+    public Instant getStop() {
+        return stop;
+    }
 }

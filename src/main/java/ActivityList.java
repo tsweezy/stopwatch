@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 /*****************************************************************
@@ -20,6 +21,16 @@ public class ActivityList {
     public ActivityList() {
         activityList = new LinkedList<Activity>();
         size = 0;
+    }
+
+    /**
+     * Constructor instantiates a list of Activities from an existing
+     * collection of Activities. Useful for loading in data from an
+     * existing session.
+     */
+    public ActivityList(Collection<Activity> c) {
+        activityList = new LinkedList<>(c);
+        size = activityList.size();
     }
 
     /**
