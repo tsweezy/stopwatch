@@ -273,7 +273,7 @@ public class TrackerGUI extends JFrame {
                 activityListPanel.add(timeEntryPanel);
 
                 JLabel aTitle = new JLabel(a.getName());
-                JLabel aDuration = new JLabel(a.durationToString(a.getLastTime()));
+                JLabel aDuration = new JLabel(a.durationToString(a.getDuration()));
                 JLabel aLocalTimes = new JLabel(
                         a.getLocalStartTime().format(DateTimeFormatter.
                                 ofPattern("E h:mm:ss a"))

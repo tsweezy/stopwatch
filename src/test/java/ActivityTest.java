@@ -28,11 +28,4 @@ class ActivityTest {
         a = new Activity("Name", "Description");
         Assertions.assertEquals(a.getDescription(), "Description");
     }
-
-    @Test
-    void start_1() {
-        a = new Activity();
-        a.start();
-        Assertions.assertEquals(a.getStart(), Instant.now());
-    }
 }

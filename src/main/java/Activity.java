@@ -55,7 +55,7 @@ public class Activity {
      * Gets the Duration from the start of the Activity to the end.
      * @return the Duration of the Activity
      */
-    public Duration getLastTime() {
+    public Duration getDuration() {
         return Duration.between(start, stop);
     }
 
