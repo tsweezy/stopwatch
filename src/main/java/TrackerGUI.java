@@ -45,40 +45,7 @@ public class TrackerGUI extends JFrame {
 
     private final ActionListener timerAction = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
-            sec++;
-            if (sec == 60) {
-                min++;
-                sec = 0;
-            }
-            if (min == 60) {
-                hr++;
-                min = 0;
-            }
-            if (sec < 10) {
-                stopwatchLabel.setText(hr + initialText + min +
-                        initialText + "0" + sec);
-                if (min < 10) {
-                    stopwatchLabel.setText(hr + initialText +
-                            "0" + min + initialText + "0" + sec);
-                    if (hr < 10)
-                        stopwatchLabel.setText("0" + hr + initialText +
-                                "0" + min + initialText + "0" + sec);
-                }
-            }
-            else if (min < 10){
-                stopwatchLabel.setText(hr + initialText +
-                        "0" + min + initialText + sec);
-                if (hr < 10)
-                    stopwatchLabel.setText("0" + hr + initialText +
-                            "0" + min + initialText + sec);
-            }
-            else if (hr < 10)
-                stopwatchLabel.setText("0" + hr + initialText +
-                        min + initialText + sec);
-
-            else
-                stopwatchLabel.setText(hr + initialText + min +
-                        initialText + sec);
+            stopwatchLabel.setText(currentActivity.durationToString(currentActivity.getTime()));
         }
     };
 
